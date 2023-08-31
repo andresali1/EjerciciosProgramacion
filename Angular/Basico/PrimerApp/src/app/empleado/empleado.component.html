@@ -1,0 +1,27 @@
+<p>Nombre del empleado: {{ nombre.value }}</p>
+<p>Apellido del empleado: {{ apellido }}</p>
+<p>Edad del empleado: {{ edad >= 18 ? edad : 'Es menor de edad!' }}</p>
+<p>Empresa del empleado: {{ empresa.value }}</p>
+
+<!-- evento click -->
+<br>
+<br>
+Introduce la Empresa: <input type="text" [disabled]="inhabilitacionEmpresa" #empresa>
+<br>
+<input type="button" value="Enviar" (click)="guardaEmpresa(empresa.value)">
+
+<!-- evento keyup -->
+<br>
+<br>
+Introduce tu nombre: <input type="text" #nombre (keyup)="0">
+
+<br>
+<br>
+¿Está registrado?: <input type="checkbox" id="registro" [checked]="estaRegistrado" #registro>
+
+<br>
+<br>
+{{ textoDeRegistro }}
+<br>
+Registrado: <input type="radio" name="estaRegistrado" value="Si" [checked]="estaRegistrado" (click)="validarRegistrado($event)">
+No registrado: <input type="radio" name="estaRegistrado" value="No" (click)="validarRegistrado($event)">
