@@ -1,0 +1,9 @@
+.formDatos{
+    width: 50%;
+    margin: 3% 0;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: solid 1px black;
+    padding-bottom: 2%;
+}
