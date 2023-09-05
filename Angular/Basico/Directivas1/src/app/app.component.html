@@ -1,0 +1,24 @@
+<div class="toggle_button">
+  Ver directiva ngIf: <button class="verButton" (click)="ngIf_toggle()">ngIf</button>
+</div>
+<div class="directiva" *ngIf="ngIfComponent_Visible">
+  <app-if></app-if>
+</div>
+<div class="toggle_button">
+  Ver directiva ngFor: <button class="verButton" (click)="ngFor_toggle()">ngFor</button>
+</div>
+<div class="directiva" *ngIf="ngForComponent_Visible">
+  <app-for></app-for>
+</div>
+<div class="toggle_button">
+  Ejercicio 1: <button class="verButton" (click)="pratica1_toggle()">Práctica 1</button>
+</div>
+<div class="directiva" *ngIf="practica1_Visible">
+  <app-practica1></app-practica1>
+</div>
+<div class="toggle_button">
+  Ver Directivas ngStyle y ngClass: <button class="verButton" (click)="styleClass_toggle()">ngStyle y ngClass</button>
+</div>
+<div class="directiva" *ngIf="styleClass_Visible">
+  <app-style-class></app-style-class>
+</div>

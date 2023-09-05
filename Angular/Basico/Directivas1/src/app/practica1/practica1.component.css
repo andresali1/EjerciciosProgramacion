@@ -1,0 +1,12 @@
+.formularioCreacion{
+    margin-bottom: 10vh;
+}
+
+.mensajeError{
+    margin-top: 1%;
+    color: red;
+}
+
+.boton_enviar{
+    margin-top: 1%;
+}

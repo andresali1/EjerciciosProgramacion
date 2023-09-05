@@ -1,0 +1,11 @@
+<div class="contenido">
+    <h3>{{ title }}</h3>
+    <h4>{{ subTitle }}</h4>
+
+    <ul class="lista_blog">
+        <li *ngFor="let entrada of entradas; let i = index">
+            <a href="#">{{entrada.titulo}}</a>
+            . Entrada {{ i + 1 }}
+        </li>
+    </ul>
+</div>

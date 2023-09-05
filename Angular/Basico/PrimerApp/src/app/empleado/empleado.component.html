@@ -1,8 +1,16 @@
+<!-- Data Binding -->
 <p>Nombre del empleado: {{ nombre.value }}</p>
 <p>Apellido del empleado: {{ apellido }}</p>
 <p>Edad del empleado: {{ edad >= 18 ? edad : 'Es menor de edad!' }}</p>
 <p>Empresa del empleado: {{ empresa.value }}</p>
+<p>Ciudad: {{ ciudad }}</p>
 
+<!-- Bidireccional binding -->
+<br>
+<br>
+Introduce la Ciudad: <input type="text" [(ngModel)]="ciudad">
+
+<!-- Property binding -->
 <!-- evento click -->
 <br>
 <br>

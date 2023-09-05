@@ -1,0 +1,21 @@
+<div class="contenido">
+    <h3>{{ title }}</h3>
+    <h4>{{ subTitle }}</h4>
+
+    <form>
+        <div class="form_content">
+            <input type="text" [(ngModel)]="nombre" name="nombre" placeholder="Nombre">
+        </div>
+        <div class="form_content">
+            <input type="text" [(ngModel)]="apellido" name="apellido" placeholder="Apellido">
+        </div>
+        <div class="form_content">
+            <input type="button" value="Registro" (click)="registroPrueba()">
+            <input class="btn_limpiar" type="button" value="Limpiar" (click)="limpiar()">
+        </div>
+    </form>
+    <p *ngIf="registrado; else sinRegistrar">{{ mensaje }}</p>
+    <ng-template #sinRegistrar>
+        <p>Nadie Registrado</p>
+    </ng-template>
+</div>

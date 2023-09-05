@@ -12,6 +12,7 @@ export class EmpleadoComponent {
   apellido = 'Gómez';
   edad = 18;
   //empresa = 'Tech S.A.S.';
+  ciudad = 'La city';
 
   //Propiedades para binding
   inhabilitacionEmpresa = false;

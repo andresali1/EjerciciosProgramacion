@@ -1,0 +1,28 @@
+<div class="contenido">
+    <h3>{{ title }}</h3>
+    <h4>{{ subTitle }}</h4>
+
+    <form>
+        <div class="form_content">
+            <input type="text" [(ngModel)]="nombre" name="nombre" placeholder="Nombre">
+        </div>
+        <div class="form_content">
+            <input type="text" [(ngModel)]="apellido" name="apellido" placeholder="Apellido">
+        </div>
+        <div class="form_content">
+            <input type="text" [(ngModel)]="cargo" name="cargo" placeholder="Cargo">
+        </div>
+        <div class="form_content">
+            <input type="button" value="Registro" (click)="registroPrueba()">
+            <input class="btn_limpiar" type="button" value="Limpiar" (click)="limpiar()">
+        </div>
+    </form>
+    <p *ngIf="registrado; else sinRegistrar">
+        {{ mensaje }} en el cargo de
+        <span [ngStyle]="{color: cargo == 'Director' || cargo == 'Jefe' ? 'red' : 'black'}">{{ cargo }}</span>
+        <span [ngClass]="{paraDirectores:cargo == 'Director' || cargo == 'Jefe'}"> -> {{ cargo == 'Director' || cargo == 'Jefe' ? ' El Cargo es directivo' : 'Contratado' }}</span>
+    </p>
+    <ng-template #sinRegistrar>
+        <p>Nadie Registrado</p>
+    </ng-template>
+</div>
