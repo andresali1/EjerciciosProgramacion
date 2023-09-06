@@ -1,0 +1,25 @@
+.datosEmpleado{
+    margin-top: 2%;
+}
+
+.listado{
+    list-style: none;
+}
+
+.infoempleado{
+    display: flex;
+    justify-content: center;
+}
+
+.acciones{
+    margin-left: 1%;
+}
+
+.edita a{
+    color: blue;
+}
+
+.elimina a{
+    color: red;
+    margin-left: 10px;
+}

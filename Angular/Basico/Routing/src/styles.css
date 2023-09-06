@@ -1,0 +1,18 @@
+/* You can add global styles to this file, and also import other style files */
+.contenido{
+    text-align: center;
+}
+
+.mensajeError{
+    margin-top: 1%;
+    color: red;
+}
+
+.botonera{
+    margin-top: 1% !important;
+    text-align: center;
+}
+
+.botonera button{
+    margin-left: 1%;
+}
