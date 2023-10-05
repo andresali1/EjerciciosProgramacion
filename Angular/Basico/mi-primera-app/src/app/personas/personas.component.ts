@@ -8,8 +8,14 @@ import { Component } from '@angular/core';
 export class PersonasComponent {
   boton_desabilitado: boolean = false;
   mensaje: string = 'No se ha agregado ninguna persona';
+  nacionalidad: string = 'NN';
+  titulo: string = '';
 
   agregarPersona(): void {
     this.mensaje = 'Persona agregada';
+  }
+
+  modificarTitulo(event: Event) {
+    this.titulo = (<HTMLInputElement>event.target).value;
   }
 }

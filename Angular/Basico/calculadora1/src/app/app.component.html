@@ -1,0 +1,20 @@
+<div class="container">
+  <h1>{{ titulo }}</h1>
+  <form>
+    <div class="form-group">
+      <label>Operando A</label>
+      <input type="number" class="form-control" placeholder="Escribe el operando A" [(ngModel)]="operandoA" name="operandoA">
+    </div>
+    <div class="form-group">
+      <label>Operando B</label>
+      <input type="number" class="form-control" placeholder="Escribe el operando B" [(ngModel)]="operandoB" name="operandoB">
+    </div>
+    <div class="d-flex w-100 justify-content-around mt-3">
+      <button type="button" class="btn btn-primary" (click)="sumar()">Sumar</button>
+      <button type="button" class="btn btn-primary" (click)="restar()">Restar</button>
+      <button type="button" class="btn btn-primary" (click)="multiplicar()">Multiplicar</button>
+      <button type="button" class="btn btn-primary" (click)="dividir()">Dividir</button>
+    </div>
+  </form>
+  <p>Resultado: {{ resultado }}</p>
+</div>

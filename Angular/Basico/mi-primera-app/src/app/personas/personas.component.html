@@ -9,6 +9,14 @@
       </button>
       <p>{{ mensaje }}</p>
       <app-persona></app-persona>
+
+      <label>Nacionalidad Persona</label>
+      <input type="text" class="form-control" [(ngModel)]="nacionalidad">
+      <p>{{ nacionalidad }}</p>
+
+      <label>Título Persona</label>
+      <input type="text" class="form-control" (input)="modificarTitulo($event)">
+      {{ titulo }}
     </div>
   </div>
 </div>
