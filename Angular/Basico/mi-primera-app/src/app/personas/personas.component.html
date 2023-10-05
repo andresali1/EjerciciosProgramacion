@@ -2,12 +2,13 @@
   <div class="row">
     <div class="col">
       <h1>Listado de Personas</h1>
-      <button class="btn btn-primary"
-              [disabled]="boton_desabilitado"
-              (click)="agregarPersona()">
-              Agregar Persona
+      <button class="btn btn-primary" [disabled]="boton_desabilitado" (click)="agregarPersona()">
+        Agregar Persona
       </button>
-      <p>{{ mensaje }}</p>
+      <p *ngIf="mostrar; else sinPersona">{{ mensaje }} con el titulo de {{ titulo }}</p>
+      <ng-template #sinPersona>
+        <p>No se ha agregado ninguna persona</p>
+      </ng-template>
       <app-persona></app-persona>
 
       <label>Nacionalidad Persona</label>
@@ -19,4 +20,19 @@
       {{ titulo }}
     </div>
   </div>
+</div>
+<div class="container separador">
+  <app-formulario (personaCreada)="personaAgregada($event)"></app-formulario>
+  <hr>
+  <app-persona-v2 *ngFor="let objPersona of personas; let i = index" [persona]="objPersona" [indice]="i+1"></app-persona-v2>
+  <!-- <div class="container">
+    <hr>
+    <div class="row">
+      <div class="col">
+        <div *ngFor="let persona of personas; let i = index">
+          {{ i+1 }}. {{ persona.nombre }} {{ persona.apellido }}
+        </div>
+      </div>
+    </div>
+  </div> -->
 </div>

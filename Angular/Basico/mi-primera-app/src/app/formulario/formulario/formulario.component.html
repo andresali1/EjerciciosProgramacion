@@ -1,0 +1,15 @@
+<form class="form row mt-4">
+    <div class="col-3">
+        <label for="nombrePersona" class="sr-only">Nombre</label>
+        <input type="text" class="form-control" [(ngModel)]="nombrePersona" placeholder="Escribe Nombre"
+            name="nombrePersona">
+    </div>
+    <div class="col-3">
+        <label for="apellidoPersona" class="sr-only">Apellido</label>
+        <input type="text" class="form-control" [(ngModel)]="apellidoPersona" placeholder="Escribe Apellido"
+            name="apellidoPersona">
+    </div>
+    <div class="col-2">
+        <button type="button" class="btn btn-primary" (click)="agregarPersonaV2()">Agregar</button>
+    </div>
+</form>
