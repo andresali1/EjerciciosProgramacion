@@ -9,13 +9,15 @@ import { Persona } from 'src/app/persona.model';
 export class FormularioComponent {
   @Output() personaCreada = new EventEmitter<Persona>();
 
-  nombrePersona: string = '';
-  apellidoPersona: string = '';
+  // nombrePersona: string = '';
+  // apellidoPersona: string = '';
 
-  agregarPersonaV2(): void {
-    let persona: Persona = new Persona(this.nombrePersona, this.apellidoPersona);
+  agregarPersonaV2(nombre: string, apellido: string): void {
+    let persona: Persona = new Persona(nombre, apellido);
     this.personaCreada.emit(persona);
-    this.nombrePersona = '';
-    this.apellidoPersona = '';
+  }
+
+  agregarPersonaV3(){
+    
   }
 }

@@ -1,15 +1,19 @@
 <form class="form row mt-4">
     <div class="col-3">
         <label for="nombrePersona" class="sr-only">Nombre</label>
-        <input type="text" class="form-control" [(ngModel)]="nombrePersona" placeholder="Escribe Nombre"
+        <input type="text" class="form-control" #nombreRef placeholder="Escribe Nombre"
             name="nombrePersona">
     </div>
     <div class="col-3">
         <label for="apellidoPersona" class="sr-only">Apellido</label>
-        <input type="text" class="form-control" [(ngModel)]="apellidoPersona" placeholder="Escribe Apellido"
+        <input type="text" class="form-control" #apellidoRef placeholder="Escribe Apellido"
             name="apellidoPersona">
     </div>
     <div class="col-2">
-        <button type="button" class="btn btn-primary" (click)="agregarPersonaV2()">Agregar</button>
+        <!-- Con referencias -->
+        <!-- <button type="button" class="btn btn-primary" (click)="agregarPersonaV2(nombreRef.value, apellidoRef.value)">Agregar</button> -->
+
+        <!-- con ViewChild -->
+        <button type="button" class="btn btn-primary" (click)="agregarPersonaV3()">Agregar</button>
     </div>
 </form>
