@@ -17,14 +17,18 @@
 
       <label>Título Persona</label>
       <input type="text" class="form-control" (input)="modificarTitulo($event)">
-      {{ titulo }}
     </div>
   </div>
 </div>
-<div class="container separador">
-  <app-formulario (personaCreada)="personaAgregada($event)"></app-formulario>
-  <hr>
+<div class="box separador" id="heading">
+  <h1>{{ titulo }}</h1>
+</div>
+<div class="box">
   <app-persona-v2 *ngFor="let objPersona of personas; let i = index" [persona]="objPersona" [indice]="i+1"></app-persona-v2>
+</div>
+<div class="box">
+  <app-formulario></app-formulario>
+</div>
   <!-- <div class="container">
     <hr>
     <div class="row">
@@ -35,4 +39,3 @@
       </div>
     </div>
   </div> -->
-</div>

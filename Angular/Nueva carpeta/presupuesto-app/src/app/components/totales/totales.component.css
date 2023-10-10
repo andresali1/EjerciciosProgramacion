@@ -1,0 +1,50 @@
+.datos{
+    height: 100%;
+    text-align: center;
+    padding-top: 1%;
+    text-align: center;
+    margin: auto;
+}
+
+.disponible{
+    width: 35%;
+    margin: auto;
+    margin-bottom: 2%;
+    padding: 1%;
+    color: white;
+}
+
+.ingresos{
+    margin: auto;
+    padding: 1%;
+    color: white;
+    width: 35%;
+    background-color: green;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.egresos{
+    margin: auto;
+    padding: 1%;
+    margin-top: 1%;
+    color: white;
+    width: 35%;
+    background-color: brown;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.titulo_1{
+    font-weight: bold;
+    margin: 0 0 1% 0;
+}
+
+.titulo_2{
+    color: black;
+    margin: 0;
+}

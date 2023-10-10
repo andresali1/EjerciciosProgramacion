@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "mi-primera-app": {
+    "presupuesto-app": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/mi-primera-app",
+            "outputPath": "dist/presupuesto-app",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -60,10 +60,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "mi-primera-app:build:production"
+              "browserTarget": "presupuesto-app:build:production"
             },
             "development": {
-              "browserTarget": "mi-primera-app:build:development"
+              "browserTarget": "presupuesto-app:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -71,7 +71,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "mi-primera-app:build"
+            "browserTarget": "presupuesto-app:build"
           }
         },
         "test": {
@@ -96,6 +96,6 @@
     }
   },
   "cli": {
-    "analytics": "b1ea99f4-231b-42ae-b9de-ea6c98289e4e"
+    "analytics": "deaf6a91-2409-4757-823a-e752dc79c71b"
   }
 }

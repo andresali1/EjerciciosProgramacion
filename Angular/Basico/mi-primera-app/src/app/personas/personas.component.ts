@@ -1,19 +1,29 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Persona } from '../persona.model';
+import { Logging } from '../Logging.service';
+import { PersonasService } from '../personas.service';
 
 @Component({
   selector: 'app-personas',
   templateUrl: './personas.component.html',
   styleUrls: ['./personas.component.css'],
 })
-export class PersonasComponent {
+export class PersonasComponent implements OnInit {
   boton_desabilitado: boolean = false;
   mensaje: string = '';
   nacionalidad: string = 'NN';
-  titulo: string = '';
+  titulo: string = 'Formulario Creación';
   mostrar: boolean = false;
-
   personas: Persona[] = [];
+
+  constructor(
+    private loggingService: Logging,
+    private personasService: PersonasService
+  ) {}
+
+  ngOnInit(): void {
+    this.personas = this.personasService.personas;
+  }
 
   agregarPersona(): void {
     this.mensaje = 'Persona agregada';
@@ -22,9 +32,5 @@ export class PersonasComponent {
 
   modificarTitulo(event: Event): void {
     this.titulo = (<HTMLInputElement>event.target).value;
-  }
-
-  personaAgregada(persona: Persona): void {
-    this.personas.push(persona);
   }
 }

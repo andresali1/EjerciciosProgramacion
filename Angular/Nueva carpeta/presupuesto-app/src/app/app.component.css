@@ -1,0 +1,45 @@
+.content{
+    height: 100vh;
+}
+
+.header{
+    height: 40%;
+    background-image: url('../assets/images/fondoTotales.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.input{
+    height: 10%;
+    text-align: center;
+}
+
+.data{
+    height: 50%;
+    width: 100%;
+    display: flex;
+}
+
+.data_row{
+    width: 50%;
+}
+
+@media (min-width: 320px){
+    .header{
+        height: 60%;
+    }
+    
+    .data{
+        height: 30%;
+    }
+}
+
+@media (min-width: 720px){
+    .header{
+        height: 40%;
+    }
+    
+    .data{
+        height: 50%;
+    }
+}
