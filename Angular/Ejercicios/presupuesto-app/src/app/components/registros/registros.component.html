@@ -10,8 +10,11 @@
             <div class="valor">
                 <p [ngClass]="esIngreso ? 'color_verde' : 'color_naranja'">{{ dato.valor | currency : 'USD' : 'symbol' : '1.0-0' }}</p>
                 <div *ngIf="!esIngreso" class="porcentaje">
-                    <span class="color_naranja">{{ dato.porcentaje }}%</span>
+                    <span class="color_naranja">{{ obtenerPorcentaje(i) }}%</span>
                 </div>
+            </div>
+            <div [ngClass]="'eliminar ' + (i % 2 == 0 ? 'eliminar_par' : 'eliminar_impar')">
+                <p (click)="eliminarRegistro(i)">X</p>
             </div>
         </div>
     </div>

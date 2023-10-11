@@ -27,6 +27,39 @@
     padding: 2%;
 }
 
+.dato:hover{
+    .valor{
+        margin-right: 20%;
+        transition-timing-function: ease-in-out;
+    }
+
+    .eliminar_par{
+        position: relative;
+        right: 5%;
+        color: red;
+        transition-property: color right;
+        transition-timing-function: ease-in-out;
+    }
+
+    .eliminar_impar{
+        position: relative;
+        right: 5%;
+        color: red;
+        transition-property: color right;
+        transition-timing-function: ease-in-out;
+    }
+}
+
+.eliminar_par{
+    color: #d3d3d3;
+    transition-duration: 0.5s;
+}
+
+.eliminar_impar{
+    color: #ffffff;
+    transition-duration: 0.5s;
+}
+
 .fondo_par{
     background-color: #d3d3d3;
 }
@@ -35,6 +68,9 @@
     width: 30%;
     display: flex;
     justify-content: space-around;
+    position: relative;
+    left: 30%;
+    transition-duration: 0.5s;
 }
 
 .porcentaje{

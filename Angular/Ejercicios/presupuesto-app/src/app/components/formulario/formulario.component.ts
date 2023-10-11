@@ -33,10 +33,7 @@ export class FormularioComponent implements OnInit {
   }
 
   enviarValor() {
-    let porcentajeTemporal:number;
     let registro: Movimiento = new Movimiento(this.descripcion, this.valor);
-    porcentajeTemporal = (this.valor * 100) / this.ingresos;
-    registro.porcentaje = Math.round(porcentajeTemporal);    
 
     if (this.tipo == '+') {
       this.registroService.agregarIngreso(registro);
