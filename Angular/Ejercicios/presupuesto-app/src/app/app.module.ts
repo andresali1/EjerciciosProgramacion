@@ -5,6 +5,9 @@ import { AppComponent } from './app.component';
 import { TotalesComponent } from './components/totales/totales.component';
 import { FormularioComponent } from './components/formulario/formulario.component';
 import { RegistrosComponent } from './components/registros/registros.component';
+import { FormsModule } from '@angular/forms';
+import { TotalesService } from './services/totales.service';
+import { RegistroService } from './services/registro.service';
 
 @NgModule({
   declarations: [
@@ -14,9 +17,13 @@ import { RegistrosComponent } from './components/registros/registros.component';
     RegistrosComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    FormsModule
   ],
-  providers: [],
+  providers: [
+    TotalesService,
+    RegistroService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

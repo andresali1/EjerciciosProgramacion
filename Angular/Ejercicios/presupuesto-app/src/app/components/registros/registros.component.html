@@ -1,0 +1,18 @@
+<div class="informacion">
+    <div class="titulo">
+        <h5 [ngClass]="esIngreso ? 'color_verde' : 'color_naranja'">{{ titulo }}</h5>
+    </div>
+    <div class="registros">
+        <div [ngClass]="'dato ' + (i % 2 == 0 ? 'fondo_par' : '')" class="dato" *ngFor="let dato of datos; let i = index">
+            <div class="nombre">
+                <p>{{ dato.descripcion }}</p>
+            </div>
+            <div class="valor">
+                <p [ngClass]="esIngreso ? 'color_verde' : 'color_naranja'">{{ dato.valor | currency : 'USD' : 'symbol' : '1.0-0' }}</p>
+                <div *ngIf="!esIngreso" class="porcentaje">
+                    <span class="color_naranja">{{ dato.porcentaje }}%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

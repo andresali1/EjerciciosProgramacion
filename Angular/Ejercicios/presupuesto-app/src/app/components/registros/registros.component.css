@@ -1,0 +1,44 @@
+.color_verde{
+    color: #56d656;
+}
+
+.color_naranja{
+    color: #da6a10;
+}
+
+.informacion{
+    width: 70%;
+    margin: 5% 10% 0 10%;
+}
+
+.titulo{
+    text-align: left;
+    margin: 5% 0;
+}
+
+.titulo h5{
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.dato{
+    display: flex;
+    justify-content: space-between;
+    padding: 2%;
+}
+
+.fondo_par{
+    background-color: #d3d3d3;
+}
+
+.valor{
+    width: 30%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.porcentaje{
+    position: relative;
+    width: 40%;
+    background-color: #fcb47a;
+}

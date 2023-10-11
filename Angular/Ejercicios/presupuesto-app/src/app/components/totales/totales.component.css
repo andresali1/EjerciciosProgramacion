@@ -19,7 +19,7 @@
     padding: 1%;
     color: white;
     width: 35%;
-    background-color: green;
+    background-color: #56d656;
     border-radius: 5px;
     display: flex;
     justify-content: space-around;
@@ -32,7 +32,7 @@
     margin-top: 1%;
     color: white;
     width: 35%;
-    background-color: brown;
+    background-color: #da6a10;
     border-radius: 5px;
     display: flex;
     justify-content: space-around;
@@ -41,10 +41,17 @@
 
 .titulo_1{
     font-weight: bold;
-    margin: 0 0 1% 0;
+    font-size: 1.5rem;
 }
 
 .titulo_2{
     color: black;
     margin: 0;
+}
+
+.porcentajeTotales{
+    position: absolute;
+    left: 62vw;
+    width: 4%;
+    background-color: #fcb47a;
 }

@@ -1,0 +1,16 @@
+<div class="content">
+  <div class="header">
+    <app-totales [disponible]="disponible" [ingresos]="ingresos" [egresos]="egresos" [porcentaje]="porcentajeEgresos"></app-totales>
+  </div>
+  <div class="input">
+    <app-formulario></app-formulario>
+  </div>
+  <div class="data">
+    <div class="data_row">
+      <app-registros [titulo]="'Ingresos'" [esIngreso]="true"></app-registros>
+    </div>
+    <div class="data_row">
+      <app-registros [titulo]="'Egresos'" [esIngreso]="false"></app-registros>
+    </div>
+  </div>
+</div>

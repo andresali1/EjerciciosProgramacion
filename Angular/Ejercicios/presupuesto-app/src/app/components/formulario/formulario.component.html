@@ -1,0 +1,17 @@
+<div class="content">
+    <div class="form_obj opciones">
+        <select [(ngModel)]="tipo">
+            <option>+</option>
+            <option>-</option>
+        </select>
+    </div>
+    <div class="form_obj titulo">
+        <input type="text" [(ngModel)]="descripcion">
+    </div>
+    <div class="form_obj numero">
+        <input type="number" [(ngModel)]="valor">
+    </div>
+    <div class="form_obj boton">
+        <button type="button" (click)="enviarValor()">+</button>
+    </div>
+</div>

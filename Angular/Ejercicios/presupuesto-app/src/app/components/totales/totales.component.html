@@ -1,0 +1,15 @@
+<div class="datos">
+    <div class="disponible">
+        <p class="titulo_1">Presupuesto Disponible:</p>
+        <span class="titulo_1">{{ disponible | currency : 'USD' : 'symbol' : '1.0-0' }}</span>
+    </div>
+    <div class="ingresos">
+        <p class="titulo_2">Ingresos</p>
+        <span>{{ ingresos | currency : 'USD' : 'symbol' : '1.0-0' }}</span>
+    </div>
+    <div class="egresos">
+        <p class="titulo_2">Egresos</p>
+        <span>{{ egresos | currency : 'USD' : 'symbol' : '1.0-0' }}</span>
+        <span class="porcentajeTotales">{{ porcentaje }}%</span>
+    </div>
+</div>

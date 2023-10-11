@@ -1,0 +1,44 @@
+.content{
+    height: 100%;
+    background-color: #e6e6e6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form_obj{
+    height: 50%;
+    display: flex;
+    justify-content: center;
+}
+
+.opciones{
+    width: 5%;
+    margin-right: 2%;
+}
+
+.opciones select{
+    width: 80%;
+    text-align: center;
+}
+
+.titulo{
+    width: 20%;
+    margin-right: 2%;
+}
+
+.titulo input{
+    width: 100%;
+}
+
+.numero{
+    margin-right: 2%;
+}
+
+.boton{
+    width: 3%;
+}
+
+.boton button{
+    width: 100%;
+}

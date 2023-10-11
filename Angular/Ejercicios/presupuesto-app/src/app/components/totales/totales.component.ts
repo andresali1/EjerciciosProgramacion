@@ -6,7 +6,8 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./totales.component.css']
 })
 export class TotalesComponent {
-  @Input() disponible:number = 0;
-  @Input() ingresos:number = 0;
-  @Input() egresos:number = 0;
+  @Input() disponible: number = 0;
+  @Input() ingresos: number = 0;
+  @Input() egresos: number = 0;
+  @Input() porcentaje: number = 0;
 }
