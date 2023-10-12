@@ -49,6 +49,10 @@ html {
     font-weight: 200;
     color: #00204a;
   }
+
+  .centrado{
+    text-align: center;
+  }
   
   form {
     text-align: center;

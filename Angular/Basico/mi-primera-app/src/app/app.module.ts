@@ -13,6 +13,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { ErrorComponent } from './error/error.component';
 import { DataService } from './services/data.service';
 import { HttpClientModule } from '@angular/common/http';
+import { LoginComponent } from './login/login.component';
+import { LoginService } from './services/login.service';
+import { LoginGuardian } from './guards/login-guardian.service';
 
 @NgModule({
   declarations: [
@@ -21,7 +24,8 @@ import { HttpClientModule } from '@angular/common/http';
     PersonaComponent,
     PersonaV2Component,
     FormularioComponent,
-    ErrorComponent
+    ErrorComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +37,9 @@ import { HttpClientModule } from '@angular/common/http';
   providers: [
     Logging,
     PersonasService,
-    DataService
+    DataService,
+    LoginService,
+    LoginGuardian
   ],
   bootstrap: [AppComponent]
 })

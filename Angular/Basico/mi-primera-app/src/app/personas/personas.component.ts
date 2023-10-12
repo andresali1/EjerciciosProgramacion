@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Persona } from '../persona.model';
-import { Logging } from '../services/Logging.service';
 import { PersonasService } from '../services/personas.service';
 
 @Component({
