@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Persona } from '../persona.model';
 import { Logging } from '../Logging.service';
 import { PersonasService } from '../personas.service';
@@ -17,9 +18,9 @@ export class PersonasComponent implements OnInit {
   personas: Persona[] = [];
 
   constructor(
-    private loggingService: Logging,
-    private personasService: PersonasService
-  ) {}
+    private personasService: PersonasService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
     this.personas = this.personasService.personas;
@@ -32,5 +33,9 @@ export class PersonasComponent implements OnInit {
 
   modificarTitulo(event: Event): void {
     this.titulo = (<HTMLInputElement>event.target).value;
+  }
+
+  agregar(): void {
+    this.router.navigate(['personas/agregar']);
   }
 }

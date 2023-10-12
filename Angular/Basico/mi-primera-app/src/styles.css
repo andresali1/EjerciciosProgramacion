@@ -3,9 +3,9 @@ html {
     background-color: #2196F3;
     min-height: 1000px;
     font-family: 'helvetica neue';
-    background: url(./assets/bg-pattern.png), #2196F3;
-    background: url(./assets/bg-pattern.png), -webkit-gradient(linear, right top, left top, from(#2196F3), to(#009688));
-    background: url(./assets/bg-pattern.png), linear-gradient(to left, #2196F3, #009688)
+    background: #2196F3;
+    background: -webkit-gradient(linear, right top, left top, from(#2196F3), to(#009688));
+    background: linear-gradient(to left, #2196F3, #009688)
   }
   
   h1 {
@@ -65,6 +65,10 @@ html {
     font-size: 30px;
     padding-bottom: 6px;
     border-width: 0;
+  }
+
+  button.buttonRed{
+    background-color: #c01b1b;
   }
   
   input[type="text"] {

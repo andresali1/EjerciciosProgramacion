@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { PersonasComponent } from './personas/personas.component';
 import { PersonaComponent } from './persona/persona.component';
@@ -9,6 +9,8 @@ import { PersonaV2Component } from './personaV2/persona-v2/persona-v2.component'
 import { FormularioComponent } from './formulario/formulario/formulario.component';
 import { Logging } from './Logging.service';
 import { PersonasService } from './personas.service';
+import { AppRoutingModule } from './app-routing.module';
+import { ErrorComponent } from './error/error.component';
 
 @NgModule({
   declarations: [
@@ -16,11 +18,14 @@ import { PersonasService } from './personas.service';
     PersonasComponent,
     PersonaComponent,
     PersonaV2Component,
-    FormularioComponent
+    FormularioComponent,
+    ErrorComponent
   ],
   imports: [
     BrowserModule,
-    FormsModule
+    FormsModule,
+    AppRoutingModule,
+    RouterModule
   ],
   providers: [
     Logging,

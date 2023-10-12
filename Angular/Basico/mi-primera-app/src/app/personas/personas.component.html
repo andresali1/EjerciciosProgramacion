@@ -1,7 +1,16 @@
+<div style="text-align: center;">
+  <button style="cursor: pointer;" (click)="agregar()">+</button>
+</div>
+<div class="box">
+  <app-persona-v2 *ngFor="let objPersona of personas; let i = index" [persona]="objPersona"
+    [indice]="i"></app-persona-v2>
+</div>
+
+<router-outlet></router-outlet>
+
 <div class="container">
   <div class="row">
     <div class="col">
-      <h1>Listado de Personas</h1>
       <button class="btn btn-primary" [disabled]="boton_desabilitado" (click)="agregarPersona()">
         Agregar Persona
       </button>
@@ -20,22 +29,3 @@
     </div>
   </div>
 </div>
-<div class="box separador" id="heading">
-  <h1>{{ titulo }}</h1>
-</div>
-<div class="box">
-  <app-persona-v2 *ngFor="let objPersona of personas; let i = index" [persona]="objPersona" [indice]="i+1"></app-persona-v2>
-</div>
-<div class="box">
-  <app-formulario></app-formulario>
-</div>
-  <!-- <div class="container">
-    <hr>
-    <div class="row">
-      <div class="col">
-        <div *ngFor="let persona of personas; let i = index">
-          {{ i+1 }}. {{ persona.nombre }} {{ persona.apellido }}
-        </div>
-      </div>
-    </div>
-  </div> -->

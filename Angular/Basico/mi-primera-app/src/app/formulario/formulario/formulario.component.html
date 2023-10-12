@@ -1,5 +1,15 @@
-<form class="item">
-        <input type="text" [(ngModel)]="nombrePersona" placeholder="Escribe Nombre" name="nombrePersona">
-        <input type="text" [(ngModel)]="apellidoPersona" placeholder="Escribe Apellido" name="apellidoPersona">
-        <button type="button" class="btn btn-primary" (click)="agregarPersona()">+</button>
-</form>
+<div class="box separador" id="heading">
+        <h1>{{ titulo }}</h1>
+</div>
+<div class="box">
+        <form class="item" #f="ngForm" (ngSubmit)="f.form.valid && onGuardarPersona()">
+                <input type="text" [(ngModel)]="nombrePersona" placeholder="Escribe Nombre" name="nombrePersona" required>
+                <input type="text" [(ngModel)]="apellidoPersona" placeholder="Escribe Apellido" name="apellidoPersona" required>
+                <button type="submit" class="btn btn-primary" style="cursor: pointer;">+</button>
+                <button *ngIf="index != null"
+                        type="submit"
+                        style="cursor: pointer;"
+                        class="buttonRed"
+                        (click)="eliminarPersona()">-</button>
+        </form>
+</div>
