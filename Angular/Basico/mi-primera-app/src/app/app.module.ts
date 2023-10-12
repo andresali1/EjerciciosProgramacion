@@ -7,10 +7,12 @@ import { PersonaComponent } from './persona/persona.component';
 import { FormsModule } from '@angular/forms';
 import { PersonaV2Component } from './personaV2/persona-v2/persona-v2.component';
 import { FormularioComponent } from './formulario/formulario/formulario.component';
-import { Logging } from './Logging.service';
-import { PersonasService } from './personas.service';
+import { Logging } from './services/Logging.service';
+import { PersonasService } from './services/personas.service';
 import { AppRoutingModule } from './app-routing.module';
 import { ErrorComponent } from './error/error.component';
+import { DataService } from './services/data.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -25,11 +27,13 @@ import { ErrorComponent } from './error/error.component';
     BrowserModule,
     FormsModule,
     AppRoutingModule,
-    RouterModule
+    RouterModule,
+    HttpClientModule
   ],
   providers: [
     Logging,
-    PersonasService
+    PersonasService,
+    DataService
   ],
   bootstrap: [AppComponent]
 })

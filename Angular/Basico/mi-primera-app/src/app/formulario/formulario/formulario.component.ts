@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Logging } from 'src/app/Logging.service';
+import { Logging } from 'src/app/services/Logging.service';
 import { Persona } from 'src/app/persona.model';
-import { PersonasService } from 'src/app/personas.service';
+import { PersonasService } from 'src/app/services/personas.service';
 
 @Component({
   selector: 'app-formulario',
