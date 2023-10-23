@@ -1,0 +1,70 @@
+h1 {
+  text-align: center;
+}
+
+.punteado {
+  border-style: dotted;
+  border-width: 10px 5px 3px 2px;
+  border-color: crimson hotpink gold lime;
+}
+
+.discontinuo {
+  border-style: dashed;
+  border-width: thin;
+  border-color: #447a9c91;
+}
+
+.solido {
+  border-style: solid;
+  border-width: thick;
+}
+
+.doble {
+  border-style: double;
+  border-width: medium;
+}
+
+.surco {
+  border-style: groove;
+  border-width: 10px 5px 2px;
+}
+
+.cresta {
+  border-style: ridge;
+  border-width: 10px 5px;
+}
+
+.recuadro {
+  border-style: inset;
+  border-width: 10px;
+}
+
+.inverso {
+  border-style: outset;
+  border-width: 10px;
+}
+
+.noBorde {
+  border: none;
+}
+
+.oculto{
+    border-style: hidden;
+    border-width: 10px;
+}
+
+.mixto{
+    border-style: dotted solid dashed double;
+    border-width: 10px;
+}
+
+.solido2{
+    border:  solid red;
+    border-width:  10px;
+    border-radius: 15px;
+}
+
+.redondeado{
+    border: 5px solid blueviolet;
+    border-radius: 20px 0 10px 0;
+}
