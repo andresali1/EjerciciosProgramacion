@@ -1,0 +1,48 @@
+/* Begin Index */
+.title{
+    color: #1d3557;
+}
+
+.menu{
+    list-style-type: none;
+    background-color: #457d9d;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+.menu_item{
+    float: left;
+}
+
+.menu_action{
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 15px;
+    text-decoration: none;
+}
+
+.menu_action:hover{
+    background-color: #1d3557;
+}
+/* End Index */
+/* Begin Contacto */
+.lenguajes{
+    list-style: none;
+    counter-reset: contador;
+}
+
+.lenguaje{
+    counter-increment: contador;
+}
+
+.lenguaje::before{
+    content: 'Curso ' counter(contador) ': ';
+    color: #ff6f00;
+}
+
+.lenguaje::after{
+    content: '.';
+}
+/* End Contacto */
