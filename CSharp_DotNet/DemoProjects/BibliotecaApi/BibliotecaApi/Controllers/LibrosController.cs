@@ -22,7 +22,7 @@ public class LibrosController : ControllerBase
         return await context.Libros.ToListAsync();
     }
 
-    [HttpGet("{id:int}")]
+    [HttpGet("{id:int}", Name = "ObtenerLibro")]
     public async Task<ActionResult<Libro>> GetById(int id)
     {
         var libro = await context.Libros
@@ -49,7 +49,7 @@ public class LibrosController : ControllerBase
 
         context.Add(libro);
         await context.SaveChangesAsync();
-        return Ok();
+        return CreatedAtRoute("ObtenerLibro", new { id = libro.Id }, libro);
     }
 
     [HttpPut("{id:int}")]
