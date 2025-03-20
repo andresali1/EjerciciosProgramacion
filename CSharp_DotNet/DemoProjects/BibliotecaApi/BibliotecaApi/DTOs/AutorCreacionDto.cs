@@ -1,11 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace BibliotecaApi.Entities;
+namespace BibliotecaApi.DTOs;
 
-public class Autor
+public class AutorCreacionDto
 {
-    public int Id { get; set; }
-
     [Required]
     [StringLength(maximumLength: 100, ErrorMessage = "El campo {0} es demasiado largo")]
     public required string Nombre { get; set; }
@@ -16,5 +14,4 @@ public class Autor
 
     [StringLength(maximumLength: 20, ErrorMessage = "El campo {0} tiene demasiados caracteres")]
     public string? Identificacion { get; set; }
-    public List<Libro> Libros { get; set; } = new List<Libro>();
 }

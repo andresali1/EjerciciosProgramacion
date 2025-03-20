@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Área de Servicios
+builder.Services.AddAutoMapper(typeof(Program));
+
 builder.Services
     .AddControllers()
     .AddJsonOptions(
