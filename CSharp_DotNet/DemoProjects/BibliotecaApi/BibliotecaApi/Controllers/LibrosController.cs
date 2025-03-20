@@ -29,7 +29,7 @@ public class LibrosController : ControllerBase
     }
 
     [HttpGet("{id:int}", Name = "ObtenerLibro")]
-    public async Task<ActionResult<LibroDto>> GetById(int id)
+    public async Task<ActionResult<LibroConAutorDto>> GetById(int id)
     {
         var libro = await context.Libros
             .Include(l => l.Autor)
@@ -40,7 +40,7 @@ public class LibrosController : ControllerBase
             return NotFound();
         }
 
-        var libroDto = mapper.Map<LibroDto>(libro);
+        var libroDto = mapper.Map<LibroConAutorDto>(libro);
 
         return libroDto;
     }
