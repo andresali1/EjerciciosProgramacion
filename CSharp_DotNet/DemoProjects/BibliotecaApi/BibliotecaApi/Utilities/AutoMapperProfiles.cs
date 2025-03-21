@@ -26,6 +26,8 @@ public class AutoMapperProfiles : Profile
 
         CreateMap<AutorCreacionDto, Autor>();
 
+        CreateMap<Autor, AutorPatchDto>().ReverseMap();
+
         CreateMap<Libro, LibroDto>();
 
         CreateMap<Libro, LibroConAutorDto>()

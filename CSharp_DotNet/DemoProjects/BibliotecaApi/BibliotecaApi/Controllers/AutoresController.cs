@@ -2,6 +2,7 @@ using AutoMapper;
 using BibliotecaApi.Data;
 using BibliotecaApi.DTOs;
 using BibliotecaApi.Entities;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -66,7 +67,39 @@ public class AutoresController : ControllerBase
 
         context.Update(autor);
         await context.SaveChangesAsync();
-        return Ok();
+        return NoContent();
+    }
+
+    [HttpPatch("{id:int}")]
+    public async Task<ActionResult> Patch(int id, JsonPatchDocument<AutorPatchDto> patchDoc)
+    {
+        if (patchDoc is null)
+        {
+            return BadRequest();
+        }
+
+        var autorDb = await context.Autores.FirstOrDefaultAsync(a => a.Id == id);
+
+        if (autorDb is null)
+        {
+            return NotFound();
+        }
+
+        var autorPatchDto = mapper.Map<AutorPatchDto>(autorDb);
+
+        patchDoc.ApplyTo(autorPatchDto, ModelState);
+
+        var esValido = TryValidateModel(autorPatchDto);
+
+        if (!esValido)
+        {
+            return ValidationProblem();
+        }
+
+        mapper.Map(autorPatchDto, autorDb);
+
+        await context.SaveChangesAsync();
+        return NoContent();
     }
 
     [HttpDelete("{id:int}")]
@@ -79,6 +112,6 @@ public class AutoresController : ControllerBase
             return NotFound();
         }
 
-        return Ok();
+        return NoContent();
     }
 }

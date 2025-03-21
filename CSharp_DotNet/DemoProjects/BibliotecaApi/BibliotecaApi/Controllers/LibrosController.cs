@@ -67,9 +67,6 @@ public class LibrosController : ControllerBase
     [HttpPut("{id:int}")]
     public async Task<ActionResult> Put(int id, LibroCreacionDto libroCreacionDto)
     {
-        var libro = mapper.Map<Libro>(libroCreacionDto);
-        libro.Id = id;
-
         var existe = await context.Libros.AnyAsync(l => l.Id == id);
 
         if (!existe)
@@ -77,9 +74,12 @@ public class LibrosController : ControllerBase
             return NotFound();
         }
 
+        var libro = mapper.Map<Libro>(libroCreacionDto);
+        libro.Id = id;
+
         context.Update(libro);
         await context.SaveChangesAsync();
-        return Ok();
+        return NoContent();
     }
 
     [HttpDelete("{id:int}")]
@@ -92,6 +92,6 @@ public class LibrosController : ControllerBase
             return NotFound();
         }
 
-        return Ok();
+        return NoContent();
     }
 }
