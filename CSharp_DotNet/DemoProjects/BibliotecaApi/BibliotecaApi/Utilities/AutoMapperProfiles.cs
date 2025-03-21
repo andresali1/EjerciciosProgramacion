@@ -37,6 +37,10 @@ public class AutoMapperProfiles : Profile
         );
 
         CreateMap<LibroCreacionDto, Libro>();
+
+        CreateMap<ComentarioCreacionDto, Comentario>();
+        CreateMap<Comentario, ComentarioDto>();
+        CreateMap<ComentarioPatchDto, Comentario>().ReverseMap();
     }
 
     private string MapearNombreApellidoAutor(Autor autor) => $"{autor.Nombre} {autor.Apellidos}";
