@@ -29,22 +29,38 @@ public class AutoMapperProfiles : Profile
 
         CreateMap<AutorLibro, LibroDto>()
             .ForMember(dto => dto.Id,
-            config => config.MapFrom(ent => ent.LibroId))
+            config => config.MapFrom(
+                ent => ent.LibroId
+            ))
             .ForMember(dto => dto.Titulo,
-            config => config.MapFrom(ent => ent.Libro!.Titulo));
+            config => config.MapFrom(
+                ent => ent.Libro!.Titulo
+            ));
 
         CreateMap<Libro, LibroDto>();
 
         CreateMap<Libro, LibroConAutoresDto>();
         CreateMap<AutorLibro, AutorDto>()
             .ForMember(dto => dto.Id,
-            config => config.MapFrom(ent => ent.AutorId))
+            config => config.MapFrom(
+                ent => ent.AutorId
+            ))
             .ForMember(dto => dto.NombreCompleto,
-            config => config.MapFrom(ent => MapearNombreApellidoAutor(ent.Autor!)));
+            config => config.MapFrom(
+                ent => MapearNombreApellidoAutor(ent.Autor!)
+            ));
+
+        CreateMap<LibroCreacionDto, AutorLibro>()
+            .ForMember(ent => ent.Libro,
+            config => config.MapFrom(
+                dto => new Libro { Titulo = dto.Titulo }
+            ));
 
         CreateMap<LibroCreacionDto, Libro>()
             .ForMember(entidad => entidad.Autores,
-            config => config.MapFrom(dto => dto.AutoresIds.Select(id => new AutorLibro { AutorId = id }))
+            config => config.MapFrom(
+                dto => dto.AutoresIds.Select(id => new AutorLibro { AutorId = id })
+            )
         );
 
         CreateMap<ComentarioCreacionDto, Comentario>();

@@ -14,4 +14,5 @@ public class AutorCreacionDto
 
     [StringLength(maximumLength: 20, ErrorMessage = "El campo {0} tiene demasiados caracteres")]
     public string? Identificacion { get; set; }
+    public List<LibroCreacionDto> Libros { get; set; } = [];
 }
