@@ -9,7 +9,6 @@ public class Libro
     [Required]
     [StringLength(maximumLength: 150, ErrorMessage = "El campo {0} es demasiado largo")]
     public required string Titulo { get; set; }
-    public int AutorId { get; set; }
-    public Autor? Autor { get; set; }
+    public List<AutorLibro> Autores { get; set; } = [];
     public List<Comentario> Comentarios { get; set; } = [];
 }

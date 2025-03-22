@@ -25,18 +25,27 @@ public class AutoMapperProfiles : Profile
             );
 
         CreateMap<AutorCreacionDto, Autor>();
-
         CreateMap<Autor, AutorPatchDto>().ReverseMap();
+
+        CreateMap<AutorLibro, LibroDto>()
+            .ForMember(dto => dto.Id,
+            config => config.MapFrom(ent => ent.LibroId))
+            .ForMember(dto => dto.Titulo,
+            config => config.MapFrom(ent => ent.Libro!.Titulo));
 
         CreateMap<Libro, LibroDto>();
 
-        CreateMap<Libro, LibroConAutorDto>()
-        .ForMember(
-            dto => dto.AutorNombre,
-            config => config.MapFrom(ent => MapearNombreApellidoAutor(ent.Autor!))
-        );
+        CreateMap<Libro, LibroConAutoresDto>();
+        CreateMap<AutorLibro, AutorDto>()
+            .ForMember(dto => dto.Id,
+            config => config.MapFrom(ent => ent.AutorId))
+            .ForMember(dto => dto.NombreCompleto,
+            config => config.MapFrom(ent => MapearNombreApellidoAutor(ent.Autor!)));
 
-        CreateMap<LibroCreacionDto, Libro>();
+        CreateMap<LibroCreacionDto, Libro>()
+            .ForMember(entidad => entidad.Autores,
+            config => config.MapFrom(dto => dto.AutoresIds.Select(id => new AutorLibro { AutorId = id }))
+        );
 
         CreateMap<ComentarioCreacionDto, Comentario>();
         CreateMap<Comentario, ComentarioDto>();

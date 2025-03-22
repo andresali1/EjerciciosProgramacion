@@ -33,6 +33,7 @@ public class AutoresController : ControllerBase
     {
         var autor = await context.Autores
             .Include(a => a.Libros)
+                .ThenInclude(al => al.Libro)
             .FirstOrDefaultAsync(a => a.Id == id);
 
         if (autor is null)

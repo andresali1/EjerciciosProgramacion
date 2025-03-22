@@ -16,5 +16,5 @@ public class Autor
 
     [StringLength(maximumLength: 20, ErrorMessage = "El campo {0} tiene demasiados caracteres")]
     public string? Identificacion { get; set; }
-    public List<Libro> Libros { get; set; } = new List<Libro>();
+    public List<AutorLibro> Libros { get; set; } = [];
 }
