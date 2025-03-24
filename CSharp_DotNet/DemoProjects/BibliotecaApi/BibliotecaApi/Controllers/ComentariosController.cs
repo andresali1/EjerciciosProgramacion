@@ -2,6 +2,7 @@ using AutoMapper;
 using BibliotecaApi.Data;
 using BibliotecaApi.DTOs;
 using BibliotecaApi.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ namespace BibliotecaApi.Controllers;
 
 [ApiController]
 [Route("/api/libros/{libroId:int}/comentarios")]
+[Authorize]
 public class ComentariosController : ControllerBase
 {
     private readonly ApplicationDbContext context;
