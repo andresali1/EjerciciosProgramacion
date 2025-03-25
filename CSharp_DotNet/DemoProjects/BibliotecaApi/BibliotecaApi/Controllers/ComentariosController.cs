@@ -27,6 +27,7 @@ public class ComentariosController : ControllerBase
     }
 
     [HttpGet]
+    [AllowAnonymous]
     public async Task<ActionResult<List<ComentarioDto>>> Get(int libroId)
     {
         var existeLibro = await context.Libros.AnyAsync(l => l.Id == libroId);
@@ -46,6 +47,7 @@ public class ComentariosController : ControllerBase
     }
 
     [HttpGet("{id}", Name = "ObtenerComentario")]
+    [AllowAnonymous]
     public async Task<ActionResult<ComentarioDto>> GetById(Guid id)
     {
         var comentario = await context.Comentarios

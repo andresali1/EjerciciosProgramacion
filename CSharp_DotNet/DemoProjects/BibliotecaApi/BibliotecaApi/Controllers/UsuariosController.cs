@@ -1,12 +1,15 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using AutoMapper;
+using BibliotecaApi.Data;
 using BibliotecaApi.DTOs;
 using BibliotecaApi.Entities;
 using BibliotecaApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 namespace BibliotecaApi.Controllers;
@@ -19,19 +22,34 @@ public class UsuariosController : ControllerBase
     private readonly SignInManager<Usuario> signInManager;
     private readonly IConfiguration configuration;
     private readonly IServicioUsuarios servicioUsuarios;
+    private readonly ApplicationDbContext context;
+    private readonly IMapper mapper;
 
 
     public UsuariosController(
         UserManager<Usuario> userManager,
         SignInManager<Usuario> signInManager,
         IConfiguration configuration,
-        IServicioUsuarios servicioUsuarios
+        IServicioUsuarios servicioUsuarios,
+        ApplicationDbContext context,
+        IMapper mapper
     )
     {
         this.userManager = userManager;
         this.signInManager = signInManager;
         this.configuration = configuration;
         this.servicioUsuarios = servicioUsuarios;
+        this.context = context;
+        this.mapper = mapper;
+    }
+
+    [HttpGet]
+    [Authorize(Policy = "esadmin")]
+    public async Task<IEnumerable<UsuarioDto>> Get()
+    {
+        var usuarios = await context.Users.ToListAsync();
+        var usuariosDto = mapper.Map<IEnumerable<UsuarioDto>>(usuarios);
+        return usuariosDto;
     }
 
     [HttpPost("registro")]

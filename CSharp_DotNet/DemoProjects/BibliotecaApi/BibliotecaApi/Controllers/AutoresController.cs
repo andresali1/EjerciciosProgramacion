@@ -32,6 +32,7 @@ public class AutoresController : ControllerBase
     }
 
     [HttpGet("{id:int}", Name = "ObtenerAutor")]
+    [AllowAnonymous]
     public async Task<ActionResult<AutorConLibrosDto>> GetById(int id)
     {
         var autor = await context.Autores

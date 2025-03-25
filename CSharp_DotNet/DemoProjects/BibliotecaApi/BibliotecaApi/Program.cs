@@ -5,10 +5,27 @@ using BibliotecaApi.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Área de Servicios
+builder.Services.AddDataProtection();
+
+var origenesPermitidos = builder.Configuration.GetSection("origenesPermitidos").Get<string[]>();
+
+builder.Services.AddCors(opciones =>
+{
+    opciones.AddDefaultPolicy(opcionesCors =>
+    {
+        opcionesCors
+            .WithOrigins(origenesPermitidos!)
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .WithExposedHeaders("mi-cabecera");
+    });
+});
+
 builder.Services.AddAutoMapper(typeof(Program));
 
 builder.Services.AddControllers().AddNewtonsoftJson();
@@ -48,9 +65,39 @@ builder.Services.AddAuthorization(opciones =>
     opciones.AddPolicy("esadmin", politica => politica.RequireClaim("esadmin"));
 });
 
+builder.Services.AddSwaggerGen(opciones =>
+{
+    opciones.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "Biblioteca API",
+        Description = "Ésta es una Webapi para trabajar con utores y libros",
+        Contact = new OpenApiContact
+        {
+            Email = "felipe@mail.com",
+            Name = "Felipe Guzmán",
+        },
+        License = new OpenApiLicense
+        {
+            Name = "MIT",
+            Url = new Uri("https://opensource.org/license/mit/")
+        }
+    });
+});
+
 var app = builder.Build();
 
 // Área de Middlewares
+app.UseSwagger();
+app.UseSwaggerUI();
+
+app.Use(async (contexto, next) =>
+{
+    contexto.Response.Headers.Append("mi-cabecera", "valor");
+    await next();
+});
+
+app.UseCors();
+
 app.MapControllers();
 
 app.Run();

@@ -67,6 +67,8 @@ public class AutoMapperProfiles : Profile
             .ForMember(dto => dto.UsuarioEmail,
             config => config.MapFrom(ent => ent.Usuario!.Email));
         CreateMap<ComentarioPatchDto, Comentario>().ReverseMap();
+
+        CreateMap<Usuario, UsuarioDto>();
     }
 
     private string MapearNombreApellidoAutor(Autor autor) => $"{autor.Nombre} {autor.Apellidos}";

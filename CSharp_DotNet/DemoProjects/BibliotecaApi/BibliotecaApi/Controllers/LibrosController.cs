@@ -23,6 +23,7 @@ public class LibrosController : ControllerBase
     }
 
     [HttpGet]
+    [AllowAnonymous]
     public async Task<IEnumerable<LibroDto>> Get()
     {
         var libros = await context.Libros.ToListAsync();
@@ -31,6 +32,7 @@ public class LibrosController : ControllerBase
     }
 
     [HttpGet("{id:int}", Name = "ObtenerLibro")]
+    [AllowAnonymous]
     public async Task<ActionResult<LibroConAutoresDto>> GetById(int id)
     {
         var libro = await context.Libros
