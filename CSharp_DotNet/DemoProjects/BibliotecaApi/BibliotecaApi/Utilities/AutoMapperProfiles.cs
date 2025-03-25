@@ -60,11 +60,12 @@ public class AutoMapperProfiles : Profile
             .ForMember(entidad => entidad.Autores,
             config => config.MapFrom(
                 dto => dto.AutoresIds.Select(id => new AutorLibro { AutorId = id })
-            )
-        );
+            ));
 
         CreateMap<ComentarioCreacionDto, Comentario>();
-        CreateMap<Comentario, ComentarioDto>();
+        CreateMap<Comentario, ComentarioDto>()
+            .ForMember(dto => dto.UsuarioEmail,
+            config => config.MapFrom(ent => ent.Usuario!.Email));
         CreateMap<ComentarioPatchDto, Comentario>().ReverseMap();
     }
 

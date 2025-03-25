@@ -1,6 +1,7 @@
 using System.Text;
-using System.Text.Json.Serialization;
 using BibliotecaApi.Data;
+using BibliotecaApi.Entities;
+using BibliotecaApi.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -15,12 +16,14 @@ builder.Services.AddControllers().AddNewtonsoftJson();
 builder.Services.AddDbContext<ApplicationDbContext>(opciones =>
     opciones.UseSqlServer("name=DefaultConnection"));
 
-builder.Services.AddIdentityCore<IdentityUser>()
+builder.Services.AddIdentityCore<Usuario>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
-builder.Services.AddScoped<UserManager<IdentityUser>>();
-builder.Services.AddScoped<SignInManager<IdentityUser>>();
+builder.Services.AddScoped<UserManager<Usuario>>();
+builder.Services.AddScoped<SignInManager<Usuario>>();
+builder.Services.AddTransient<IServicioUsuarios, ServicioUsuarios>();
+
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddAuthentication().AddJwtBearer(opciones =>
@@ -38,6 +41,11 @@ builder.Services.AddAuthentication().AddJwtBearer(opciones =>
         ),
         ClockSkew = TimeSpan.Zero
     };
+});
+
+builder.Services.AddAuthorization(opciones =>
+{
+    opciones.AddPolicy("esadmin", politica => politica.RequireClaim("esadmin"));
 });
 
 var app = builder.Build();

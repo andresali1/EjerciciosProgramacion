@@ -2,6 +2,7 @@ using AutoMapper;
 using BibliotecaApi.Data;
 using BibliotecaApi.DTOs;
 using BibliotecaApi.Entities;
+using BibliotecaApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -16,11 +17,13 @@ public class ComentariosController : ControllerBase
 {
     private readonly ApplicationDbContext context;
     private readonly IMapper mapper;
+    private readonly IServicioUsuarios servicioUsuarios;
 
-    public ComentariosController(ApplicationDbContext context, IMapper mapper)
+    public ComentariosController(ApplicationDbContext context, IMapper mapper, IServicioUsuarios servicioUsuarios)
     {
         this.context = context;
         this.mapper = mapper;
+        this.servicioUsuarios = servicioUsuarios;
     }
 
     [HttpGet]
@@ -34,6 +37,7 @@ public class ComentariosController : ControllerBase
         }
 
         var comentarios = await context.Comentarios
+            .Include(c => c.Usuario)
             .Where(c => c.LibroId == libroId)
             .OrderByDescending(c => c.FechaPublicacion)
             .ToListAsync();
@@ -44,7 +48,9 @@ public class ComentariosController : ControllerBase
     [HttpGet("{id}", Name = "ObtenerComentario")]
     public async Task<ActionResult<ComentarioDto>> GetById(Guid id)
     {
-        var comentario = await context.Comentarios.FirstOrDefaultAsync(c => c.Id == id);
+        var comentario = await context.Comentarios
+            .Include(c => c.Usuario)
+            .FirstOrDefaultAsync(c => c.Id == id);
 
         if (comentario is null)
         {
@@ -64,9 +70,17 @@ public class ComentariosController : ControllerBase
             return NotFound();
         }
 
+        var usuario = await servicioUsuarios.ObtenerUsuario();
+
+        if (usuario is null)
+        {
+            return NotFound();
+        }
+
         var comentario = mapper.Map<Comentario>(comentarioCreacionDto);
         comentario.LibroId = libroId;
         comentario.FechaPublicacion = DateTime.UtcNow;
+        comentario.UsuarioId = usuario.Id;
 
         context.Add(comentario);
         await context.SaveChangesAsync();
@@ -88,11 +102,23 @@ public class ComentariosController : ControllerBase
             return NotFound();
         }
 
+        var usuario = await servicioUsuarios.ObtenerUsuario();
+
+        if (usuario is null)
+        {
+            return NotFound();
+        }
+
         var comentarioDb = await context.Comentarios.FirstOrDefaultAsync(a => a.Id == id);
 
         if (comentarioDb is null)
         {
             return NotFound();
+        }
+
+        if (comentarioDb.UsuarioId != usuario.Id)
+        {
+            return Forbid();
         }
 
         var comentarioPatchDto = mapper.Map<ComentarioPatchDto>(comentarioDb);
@@ -122,12 +148,27 @@ public class ComentariosController : ControllerBase
             return NotFound();
         }
 
-        var registrosBorrados = await context.Comentarios.Where(c => c.Id == id).ExecuteDeleteAsync();
+        var usuario = await servicioUsuarios.ObtenerUsuario();
 
-        if (registrosBorrados < 1)
+        if (usuario is null)
         {
             return NotFound();
         }
+
+        var comentarioDb = await context.Comentarios.FirstOrDefaultAsync(c => c.Id == id);
+
+        if (comentarioDb is null)
+        {
+            return NotFound();
+        }
+
+        if (comentarioDb.UsuarioId != usuario.Id)
+        {
+            return Forbid();
+        }
+
+        context.Remove(comentarioDb);
+        await context.SaveChangesAsync();
 
         return NoContent();
     }

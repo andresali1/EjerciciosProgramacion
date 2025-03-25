@@ -2,6 +2,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using BibliotecaApi.DTOs;
+using BibliotecaApi.Entities;
+using BibliotecaApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -11,26 +13,31 @@ namespace BibliotecaApi.Controllers;
 
 [ApiController]
 [Route("api/usuarios")]
-[Authorize]
 public class UsuariosController : ControllerBase
 {
-    private readonly UserManager<IdentityUser> userManager;
-    private readonly SignInManager<IdentityUser> signInManager;
+    private readonly UserManager<Usuario> userManager;
+    private readonly SignInManager<Usuario> signInManager;
     private readonly IConfiguration configuration;
+    private readonly IServicioUsuarios servicioUsuarios;
 
 
-    public UsuariosController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IConfiguration configuration)
+    public UsuariosController(
+        UserManager<Usuario> userManager,
+        SignInManager<Usuario> signInManager,
+        IConfiguration configuration,
+        IServicioUsuarios servicioUsuarios
+    )
     {
         this.userManager = userManager;
         this.signInManager = signInManager;
         this.configuration = configuration;
+        this.servicioUsuarios = servicioUsuarios;
     }
 
     [HttpPost("registro")]
-    [AllowAnonymous]
     public async Task<ActionResult<RespuestaAutenticacionDto>> Registrar(CredencialesUsuarioDto credencialesUsuarioDto)
     {
-        var usuario = new IdentityUser
+        var usuario = new Usuario
         {
             UserName = credencialesUsuarioDto.Email,
             Email = credencialesUsuarioDto.Email
@@ -55,7 +62,6 @@ public class UsuariosController : ControllerBase
     }
 
     [HttpPost("login")]
-    [AllowAnonymous]
     public async Task<ActionResult<RespuestaAutenticacionDto>> Login(CredencialesUsuarioDto credencialesUsuarioDto)
     {
         var usuario = await userManager.FindByEmailAsync(credencialesUsuarioDto.Email);
@@ -75,6 +81,70 @@ public class UsuariosController : ControllerBase
         {
             return RetornarLoginIncorrecto();
         }
+    }
+
+    [HttpPut]
+    [Authorize]
+    public async Task<ActionResult> Put(ActualizarUsuarioDto actualizarUsuarioDto)
+    {
+        var usuario = await servicioUsuarios.ObtenerUsuario();
+
+        if (usuario is null)
+        {
+            return NotFound();
+        }
+
+        usuario.FechaNacimiento = actualizarUsuarioDto.FechaNacimiento;
+
+        await userManager.UpdateAsync(usuario);
+        return NoContent();
+    }
+
+    [HttpGet("renovar-token")]
+    public async Task<ActionResult<RespuestaAutenticacionDto>> RenovarToken()
+    {
+        var usuario = await servicioUsuarios.ObtenerUsuario();
+
+        if (usuario is null)
+        {
+            return NotFound();
+        }
+
+        var credencialesUsuarioDto = new CredencialesUsuarioDto { Email = usuario.Email! };
+
+        var respuestaAutenticacion = await ConstruirToken(credencialesUsuarioDto);
+
+        return respuestaAutenticacion;
+    }
+
+    [HttpPost("hacer-admin")]
+    // [Authorize(Policy = "esadmin")]
+    public async Task<ActionResult> HacerAdmin(EditarClaimDto editarClaimDto)
+    {
+        var usuario = await userManager.FindByEmailAsync(editarClaimDto.Email);
+
+        if (usuario is null)
+        {
+            return NotFound();
+        }
+
+        await userManager.AddClaimAsync(usuario, new Claim("esadmin", "true"));
+        return NoContent();
+    }
+
+    [HttpPost("remover-admin")]
+    [Authorize(Policy = "esadmin")]
+    public async Task<ActionResult> RemoverAdmin(EditarClaimDto editarClaimDto)
+    {
+        var usuario = await userManager.FindByEmailAsync(editarClaimDto.Email);
+
+        if (usuario is null)
+        {
+            return NotFound();
+        }
+
+        await userManager.RemoveClaimAsync(usuario, new Claim("esadmin", "true"));
+        return NoContent();
     }
 
     private ActionResult RetornarLoginIncorrecto()
