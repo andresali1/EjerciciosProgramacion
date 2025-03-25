@@ -3,6 +3,7 @@ using AutoMapper;
 using BibliotecaApi.Data;
 using BibliotecaApi.DTOs;
 using BibliotecaApi.Entities;
+using BibliotecaApi.Utilities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -26,9 +27,16 @@ public class AutoresController : ControllerBase
 
     [HttpGet]
     [AllowAnonymous]
-    public async Task<IEnumerable<AutorDto>> Get()
+    public async Task<IEnumerable<AutorDto>> Get([FromQuery] PaginacionDto paginacionDto)
     {
-        var autores = await context.Autores.ToListAsync();
+        var queryable = context.Autores.AsQueryable();
+        await HttpContext.InsertarParametrosPaginacionEnCabecera(queryable);
+
+        var autores = await queryable
+            .OrderBy(a => a.Nombre)
+            .Paginar(paginacionDto)
+            .ToListAsync();
+
         return mapper.Map<IEnumerable<AutorDto>>(autores);
     }
 

@@ -23,7 +23,7 @@ builder.Services.AddCors(opciones =>
             .WithOrigins(origenesPermitidos!)
             .AllowAnyMethod()
             .AllowAnyHeader()
-            .WithExposedHeaders("mi-cabecera");
+            .WithExposedHeaders("cantidad-total-registros");
     });
 });
 
