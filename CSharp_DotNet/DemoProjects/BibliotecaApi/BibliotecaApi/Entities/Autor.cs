@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
 
 namespace BibliotecaApi.Entities;
 
@@ -16,5 +17,8 @@ public class Autor
 
     [StringLength(maximumLength: 20, ErrorMessage = "El campo {0} tiene demasiados caracteres")]
     public string? Identificacion { get; set; }
+
+    [Unicode(false)]
+    public string? Foto { get; set; }
     public List<AutorLibro> Libros { get; set; } = [];
 }

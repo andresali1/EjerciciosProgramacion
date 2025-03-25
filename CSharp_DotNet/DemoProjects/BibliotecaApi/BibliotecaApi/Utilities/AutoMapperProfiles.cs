@@ -25,6 +25,10 @@ public class AutoMapperProfiles : Profile
             );
 
         CreateMap<AutorCreacionDto, Autor>();
+        CreateMap<AutorCreacionConFotoDto, Autor>()
+            .ForMember(ent => ent.Foto,
+            config => config.Ignore());
+
         CreateMap<Autor, AutorPatchDto>().ReverseMap();
 
         CreateMap<AutorLibro, LibroDto>()
