@@ -41,6 +41,7 @@ builder.Services.AddIdentityCore<Usuario>()
 builder.Services.AddScoped<UserManager<Usuario>>();
 builder.Services.AddScoped<SignInManager<Usuario>>();
 builder.Services.AddTransient<IServicioUsuarios, ServicioUsuarios>();
+builder.Services.AddTransient<IAlmacenadorArchivos, AlmacenadorArchivosLocal>();
 
 builder.Services.AddHttpContextAccessor();
 
@@ -117,11 +118,7 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 
-app.Use(async (contexto, next) =>
-{
-    contexto.Response.Headers.Append("mi-cabecera", "valor");
-    await next();
-});
+app.UseStaticFiles();
 
 app.UseCors();
 

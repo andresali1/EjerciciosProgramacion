@@ -107,15 +107,22 @@ public class AutoresController : ControllerBase
         var autor = mapper.Map<Autor>(autorCreacionConFotoDto);
         autor.Id = id;
 
-        if (autorCreacionConFotoDto.Foto is not null)
-        {
-            var fotoActual = await context.Autores
+        var fotoActual = await context.Autores
                 .Where(a => a.Id == id)
                 .Select(a => a.Foto)
                 .FirstAsync();
 
+        if (autorCreacionConFotoDto.Foto is not null)
+        {
             var url = await almacenadorArchivos.Editar(fotoActual, contenedor, autorCreacionConFotoDto.Foto);
             autor.Foto = url;
+        }
+        else
+        {
+            if (!string.IsNullOrEmpty(fotoActual))
+            {
+                autor.Foto = fotoActual;
+            }
         }
 
         context.Update(autor);
