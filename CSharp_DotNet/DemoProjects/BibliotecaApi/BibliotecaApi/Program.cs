@@ -2,6 +2,7 @@ using System.Text;
 using BibliotecaApi.Data;
 using BibliotecaApi.Entities;
 using BibliotecaApi.Services;
+using BibliotecaApi.Swagger;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -82,6 +83,32 @@ builder.Services.AddSwaggerGen(opciones =>
             Url = new Uri("https://opensource.org/license/mit/")
         }
     });
+
+    opciones.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header
+    });
+
+    opciones.OperationFilter<FiltroAutorizacion>();
+
+    /*
+    opciones.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme{
+                Reference = new OpenApiReference{
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[]{}
+        }
+    });
+    */
 });
 
 var app = builder.Build();
