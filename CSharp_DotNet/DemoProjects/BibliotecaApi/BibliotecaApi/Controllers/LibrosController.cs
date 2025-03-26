@@ -5,6 +5,7 @@ using BibliotecaApi.Entities;
 using BibliotecaApi.Utilities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.EntityFrameworkCore;
 
 namespace BibliotecaApi.Controllers;
@@ -16,15 +17,23 @@ public class LibrosController : ControllerBase
 {
     private readonly ApplicationDbContext context;
     private readonly IMapper mapper;
+    private readonly IOutputCacheStore outputCacheStore;
+    private const string cache = "libros-obtener";
 
-    public LibrosController(ApplicationDbContext context, IMapper mapper)
+    public LibrosController(
+        ApplicationDbContext context,
+        IMapper mapper,
+        IOutputCacheStore outputCacheStore
+    )
     {
         this.context = context;
         this.mapper = mapper;
+        this.outputCacheStore = outputCacheStore;
     }
 
     [HttpGet]
     [AllowAnonymous]
+    [OutputCache(Tags = [cache])]
     public async Task<IEnumerable<LibroDto>> Get([FromQuery] PaginacionDto paginacionDto)
     {
         var queryable = context.Libros.AsQueryable();
@@ -41,6 +50,7 @@ public class LibrosController : ControllerBase
 
     [HttpGet("{id:int}", Name = "ObtenerLibro")]
     [AllowAnonymous]
+    [OutputCache(Tags = [cache])]
     public async Task<ActionResult<LibroConAutoresDto>> GetById(int id)
     {
         var libro = await context.Libros
@@ -87,6 +97,7 @@ public class LibrosController : ControllerBase
 
         context.Add(libro);
         await context.SaveChangesAsync();
+        await outputCacheStore.EvictByTagAsync(cache, default);
 
         var libroDto = mapper.Map<LibroDto>(libro);
 
@@ -141,6 +152,7 @@ public class LibrosController : ControllerBase
         AsignarOrdenAutores(libroDb);
 
         await context.SaveChangesAsync();
+        await outputCacheStore.EvictByTagAsync(cache, default);
         return NoContent();
     }
 

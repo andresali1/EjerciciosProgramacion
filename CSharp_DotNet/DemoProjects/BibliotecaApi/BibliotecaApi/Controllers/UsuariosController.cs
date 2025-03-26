@@ -9,6 +9,7 @@ using BibliotecaApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
@@ -24,6 +25,8 @@ public class UsuariosController : ControllerBase
     private readonly IServicioUsuarios servicioUsuarios;
     private readonly ApplicationDbContext context;
     private readonly IMapper mapper;
+    private readonly IOutputCacheStore outputCacheStore;
+    private const string cache = "usuarios-obtener";
 
 
     public UsuariosController(
@@ -32,7 +35,8 @@ public class UsuariosController : ControllerBase
         IConfiguration configuration,
         IServicioUsuarios servicioUsuarios,
         ApplicationDbContext context,
-        IMapper mapper
+        IMapper mapper,
+        IOutputCacheStore outputCacheStore
     )
     {
         this.userManager = userManager;
@@ -41,10 +45,12 @@ public class UsuariosController : ControllerBase
         this.servicioUsuarios = servicioUsuarios;
         this.context = context;
         this.mapper = mapper;
+        this.outputCacheStore = outputCacheStore;
     }
 
     [HttpGet]
     [Authorize(Policy = "esadmin")]
+    [OutputCache(Tags = [cache])]
     public async Task<IEnumerable<UsuarioDto>> Get()
     {
         var usuarios = await context.Users.ToListAsync();
@@ -65,6 +71,7 @@ public class UsuariosController : ControllerBase
 
         if (resultado.Succeeded)
         {
+            await outputCacheStore.EvictByTagAsync(cache, default);
             var respuestaAutenticacion = await ConstruirToken(credencialesUsuarioDto);
             return respuestaAutenticacion;
         }
@@ -115,6 +122,7 @@ public class UsuariosController : ControllerBase
         usuario.FechaNacimiento = actualizarUsuarioDto.FechaNacimiento;
 
         await userManager.UpdateAsync(usuario);
+        await outputCacheStore.EvictByTagAsync(cache, default);
         return NoContent();
     }
 

@@ -14,6 +14,7 @@ public class ApplicationDbContext : IdentityDbContext<Usuario>
 
         modelBuilder.Entity<Autor>().Property(x => x.Nombre).HasMaxLength(100);
         modelBuilder.Entity<Libro>().Property(x => x.Titulo).HasMaxLength(150);
+        modelBuilder.Entity<Comentario>().HasQueryFilter(x => !x.EstaBorrado);
     }
 
     public DbSet<Autor> Autores { get; set; }

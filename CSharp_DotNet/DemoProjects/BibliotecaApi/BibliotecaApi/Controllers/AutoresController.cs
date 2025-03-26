@@ -9,6 +9,7 @@ using BibliotecaApi.Utilities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.EntityFrameworkCore;
 
 namespace BibliotecaApi.Controllers;
@@ -22,23 +23,28 @@ public class AutoresController : ControllerBase
     private readonly IMapper mapper;
     private readonly IAlmacenadorArchivos almacenadorArchivos;
     private readonly ILogger<AutoresController> logger;
+    private readonly IOutputCacheStore outputCacheStore;
     private const string contenedor = "autores";
+    private const string cache = "autores-obtener";
 
     public AutoresController(
         ApplicationDbContext context,
         IMapper mapper,
         IAlmacenadorArchivos almacenadorArchivos,
-        ILogger<AutoresController> logger
+        ILogger<AutoresController> logger,
+        IOutputCacheStore outputCacheStore
     )
     {
         this.context = context;
         this.mapper = mapper;
         this.almacenadorArchivos = almacenadorArchivos;
         this.logger = logger;
+        this.outputCacheStore = outputCacheStore;
     }
 
     [HttpGet]
     [AllowAnonymous]
+    [OutputCache(Tags = [cache])]
     public async Task<IEnumerable<AutorDto>> Get([FromQuery] PaginacionDto paginacionDto)
     {
         var queryable = context.Autores.AsQueryable();
@@ -58,6 +64,7 @@ public class AutoresController : ControllerBase
     [EndpointDescription("Obtiene un autor por su Id, obtiene sus libros. Si el autor no existe devuelve un 404")]
     [ProducesResponseType<AutorConLibrosDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [OutputCache(Tags = [cache])]
     public async Task<ActionResult<AutorConLibrosDto>> GetById([Description("El id del autor")] int id)
     {
         var autor = await context.Autores
@@ -167,6 +174,7 @@ public class AutoresController : ControllerBase
         var autor = mapper.Map<Autor>(autorCreacionDto);
         context.Add(autor);
         await context.SaveChangesAsync();
+        await outputCacheStore.EvictByTagAsync(cache, default);
         return CreatedAtRoute("ObtenerAutor", new { id = autor.Id }, mapper.Map<AutorDto>(autor));
     }
 
@@ -183,6 +191,7 @@ public class AutoresController : ControllerBase
 
         context.Add(autor);
         await context.SaveChangesAsync();
+        await outputCacheStore.EvictByTagAsync(cache, default);
         return CreatedAtRoute("ObtenerAutor", new { id = autor.Id }, mapper.Map<AutorDto>(autor));
     }
 
@@ -219,6 +228,7 @@ public class AutoresController : ControllerBase
 
         context.Update(autor);
         await context.SaveChangesAsync();
+        await outputCacheStore.EvictByTagAsync(cache, default);
         return NoContent();
     }
 
@@ -251,6 +261,7 @@ public class AutoresController : ControllerBase
         mapper.Map(autorPatchDto, autorDb);
 
         await context.SaveChangesAsync();
+        await outputCacheStore.EvictByTagAsync(cache, default);
         return NoContent();
     }
 
@@ -266,6 +277,7 @@ public class AutoresController : ControllerBase
 
         context.Remove(autor);
         await context.SaveChangesAsync();
+        await outputCacheStore.EvictByTagAsync(cache, default);
 
         if (!string.IsNullOrEmpty(autor.Foto))
         {

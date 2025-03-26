@@ -11,6 +11,11 @@ using Microsoft.OpenApi.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 // Área de Servicios
+builder.Services.AddOutputCache(opciones =>
+{
+    opciones.DefaultExpirationTimeSpan = TimeSpan.FromSeconds(15);
+});
+
 builder.Services.AddDataProtection();
 
 var origenesPermitidos = builder.Configuration.GetSection("origenesPermitidos").Get<string[]>();
@@ -121,6 +126,8 @@ app.UseSwaggerUI();
 app.UseStaticFiles();
 
 app.UseCors();
+
+app.UseOutputCache();
 
 app.MapControllers();
 

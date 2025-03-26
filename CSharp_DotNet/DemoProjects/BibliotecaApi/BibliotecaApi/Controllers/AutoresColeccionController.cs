@@ -4,6 +4,7 @@ using BibliotecaApi.DTOs;
 using BibliotecaApi.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.EntityFrameworkCore;
 
 namespace BibliotecaApi.Controllers;
@@ -15,14 +16,22 @@ public class AutoresColeccionController : ControllerBase
 {
     private readonly ApplicationDbContext context;
     private readonly IMapper mapper;
+    private readonly IOutputCacheStore outputCacheStore;
+    private const string cache = "autores-coleccion-obtener";
 
-    public AutoresColeccionController(ApplicationDbContext context, IMapper mapper)
+    public AutoresColeccionController(
+        ApplicationDbContext context,
+        IMapper mapper,
+        IOutputCacheStore outputCacheStore
+    )
     {
         this.context = context;
         this.mapper = mapper;
+        this.outputCacheStore = outputCacheStore;
     }
 
     [HttpGet("{ids}", Name = "ObtenerAutoresPorIds")]
+    [OutputCache(Tags = [cache])]
     public async Task<ActionResult<List<AutorConLibrosDto>>> Get(string ids)
     {
         var idsColeccion = new List<int>();
@@ -61,6 +70,7 @@ public class AutoresColeccionController : ControllerBase
         var autores = mapper.Map<IEnumerable<Autor>>(autoresCreacionDto);
         context.AddRange(autores);
         await context.SaveChangesAsync();
+        await outputCacheStore.EvictByTagAsync(cache, default);
 
         var autoresDto = mapper.Map<IEnumerable<AutorDto>>(autores);
         var ids = autores.Select(a => a.Id);
