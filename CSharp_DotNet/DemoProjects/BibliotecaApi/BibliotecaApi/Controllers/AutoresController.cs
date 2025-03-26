@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Linq.Dynamic.Core;
 using AutoMapper;
 using BibliotecaApi.Data;
 using BibliotecaApi.DTOs;
@@ -20,17 +21,20 @@ public class AutoresController : ControllerBase
     private readonly ApplicationDbContext context;
     private readonly IMapper mapper;
     private readonly IAlmacenadorArchivos almacenadorArchivos;
+    private readonly ILogger<AutoresController> logger;
     private const string contenedor = "autores";
 
     public AutoresController(
         ApplicationDbContext context,
         IMapper mapper,
-        IAlmacenadorArchivos almacenadorArchivos
+        IAlmacenadorArchivos almacenadorArchivos,
+        ILogger<AutoresController> logger
     )
     {
         this.context = context;
         this.mapper = mapper;
         this.almacenadorArchivos = almacenadorArchivos;
+        this.logger = logger;
     }
 
     [HttpGet]
@@ -67,6 +71,94 @@ public class AutoresController : ControllerBase
         }
 
         return mapper.Map<AutorConLibrosDto>(autor);
+    }
+
+    [HttpGet("filtrar")]
+    [AllowAnonymous]
+    public async Task<ActionResult> Filtrar([FromQuery] AutorFiltroDto autorFiltroDto)
+    {
+        var queryable = context.Autores.AsQueryable();
+
+        if (!string.IsNullOrEmpty(autorFiltroDto.Nombre))
+        {
+            queryable = queryable.Where(x => x.Nombre.Contains(autorFiltroDto.Nombre));
+        }
+
+        if (!string.IsNullOrEmpty(autorFiltroDto.Apellidos))
+        {
+            queryable = queryable.Where(x => x.Apellidos.Contains(autorFiltroDto.Apellidos));
+        }
+
+        if (autorFiltroDto.IncluirLibros)
+        {
+            queryable = queryable.Include(x => x.Libros).ThenInclude(x => x.Libro);
+        }
+
+        if (autorFiltroDto.TieneFoto.HasValue)
+        {
+            if (autorFiltroDto.TieneFoto.Value)
+            {
+                queryable = queryable.Where(x => x.Foto != null);
+            }
+            else
+            {
+                queryable = queryable.Where(x => x.Foto == null);
+            }
+        }
+
+        if (autorFiltroDto.TieneLibros.HasValue)
+        {
+            if (autorFiltroDto.TieneLibros.Value)
+            {
+                queryable = queryable.Where(x => x.Libros.Any());
+            }
+            else
+            {
+                queryable = queryable.Where(x => !x.Libros.Any());
+            }
+        }
+
+        if (!string.IsNullOrEmpty(autorFiltroDto.TituloLibro))
+        {
+            queryable = queryable
+                .Where(x => x.Libros
+                    .Any(l => l.Libro!.Titulo
+                        .Contains(autorFiltroDto.TituloLibro!)));
+        }
+
+        if (!string.IsNullOrEmpty(autorFiltroDto.CampoOrdenar))
+        {
+            var tipoOrden = autorFiltroDto.OrdenAscendente ? "ascending" : "descending";
+
+            try
+            {
+                queryable = queryable.OrderBy($"{autorFiltroDto.CampoOrdenar} {tipoOrden}");
+            }
+            catch (Exception ex)
+            {
+                queryable = queryable.OrderBy(x => x.Nombre);
+                logger.LogError(ex.Message, ex);
+            }
+        }
+        else
+        {
+            queryable = queryable.OrderBy(x => x.Nombre);
+        }
+
+        var autores = await queryable
+            .Paginar(autorFiltroDto.PaginacionDto)
+            .ToListAsync();
+
+        if (autorFiltroDto.IncluirLibros)
+        {
+            var autoresDto = mapper.Map<IEnumerable<AutorConLibrosDto>>(autores);
+            return Ok(autoresDto);
+        }
+        else
+        {
+            var autoresDto = mapper.Map<IEnumerable<AutorDto>>(autores);
+            return Ok(autoresDto);
+        }
     }
 
     [HttpPost]
